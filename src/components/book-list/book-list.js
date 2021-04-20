@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 import "./book-list.css";
 import { compose } from "../../utils";
@@ -29,18 +30,9 @@ const BookList = ({books, onAddedToCart}) => {
 };
 
 class BookListContainer extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     this.props.fetchBooks();
-
-    // const { bookstoreService, booksLoaded, booksRequested, booksError } = this.props;
-    // booksRequested();
-    // bookstoreService.getBooks()
-    //   .then(data => booksLoaded(data))
-    //   .catch(error => booksError(error));
   }
 
   render() {
@@ -70,18 +62,11 @@ const mapStateToProps = ({bookList: {books, loading, error}}) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const {bookstoreService} = ownProps;
-  return {
-    fetchBooks: () => dispatch(fetchBooks(bookstoreService)()),
-    // fetchBooks: fetchBooks(dispatch, bookstoreService),
-    onAddedToCart: id => dispatch(bookAddedToCart(id))
-  };
+  return bindActionCreators({
+    fetchBooks: fetchBooks(bookstoreService),
+    onAddedToCart: bookAddedToCart
+  }, dispatch);
 }
-
-// const mapDispatchToProps = {
-//   booksLoaded,
-//   booksRequested,
-//   booksError
-// };
 
 export default compose(
   withBookstoreService,
