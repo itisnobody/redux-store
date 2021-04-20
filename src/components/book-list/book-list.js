@@ -71,7 +71,8 @@ const mapStateToProps = ({bookList: {books, loading, error}}) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const {bookstoreService} = ownProps;
   return {
-    fetchBooks: fetchBooks(dispatch, bookstoreService),
+    fetchBooks: () => dispatch(fetchBooks(bookstoreService)()),
+    // fetchBooks: fetchBooks(dispatch, bookstoreService),
     onAddedToCart: id => dispatch(bookAddedToCart(id))
   };
 }
