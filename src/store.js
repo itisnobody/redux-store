@@ -1,36 +1,59 @@
-import { createStore, compose } from "redux";
+import { createStore, compose, applyMiddleware } from "redux";
 
 import reducer from "./reducers";
 
-const strEnhancer = createStore => (...args) => {
-  const store = createStore(...args);
-  const originalDispatch = store.dispatch;
-  store.dispatch = (action) => {
-    if (typeof action === 'string') {
-      return originalDispatch({
-        type: action
-      });
-    }
+const logMiddleware = store => dispatch => action => {
+  console.log(action.type, store.getState());
 
-    return originalDispatch(action);
-  };
-
-  return store;
+  return dispatch(action);
 };
 
-const logEnhancer = createStore => (...args) => {
-  const store = createStore(...args);
-  const originalDispatch = store.dispatch;
-  store.dispatch = (action) => {
-    console.log(action.type);
+const strMiddleware = () => dispatch => action => {
+  if (typeof action === 'string') {
+    return dispatch({
+      type: action
+    });
+  }
 
-    return originalDispatch(action);
-  };
+  console.log(dispatch);
 
-  return store;
+  return dispatch(action);
 };
 
-const store = createStore(reducer, compose(strEnhancer, logEnhancer));
+const store = createStore(reducer, applyMiddleware(
+  strMiddleware, logMiddleware));
+
+// use enhancer
+//
+// const strEnhancer = createStore => (...args) => {
+//   const store = createStore(...args);
+//   const originalDispatch = store.dispatch;
+//   store.dispatch = (action) => {
+//     if (typeof action === 'string') {
+//       return originalDispatch({
+//         type: action
+//       });
+//     }
+//
+//     return originalDispatch(action);
+//   };
+//
+//   return store;
+// };
+//
+// const logEnhancer = createStore => (...args) => {
+//   const store = createStore(...args);
+//   const originalDispatch = store.dispatch;
+//   store.dispatch = (action) => {
+//     console.log(action.type);
+//
+//     return originalDispatch(action);
+//   };
+//
+//   return store;
+// };
+
+// const store = createStore(reducer, compose(strEnhancer, logEnhancer));
 
 // manky patching
 //
