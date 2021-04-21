@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import "./book-list.css";
+import "./book-list.scss";
 import { compose } from "../../utils";
 import { fetchBooks, bookAddedToCart } from "../../actions";
 import withBookstoreService from "../hoc/with-bookstore-service";

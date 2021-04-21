@@ -6,7 +6,7 @@ import {
   bookRemovedFromCart,
   allBookRemovedFromCart
 } from "../../actions";
-import './cart-table.css';
+import './cart-table.scss';
 
 const CartTable = ({items, total, onIncrease, onDecrease, onDelete}) => {
 

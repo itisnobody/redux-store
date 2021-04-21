@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./book-list-item.css";
+import "./book-list-item.scss";
 
 const BookListItem = ({book, onAddedToCart }) => {
 
